@@ -1,0 +1,8 @@
+# frontend
+frontend/node_modules
+
+# backend
+backend/node_modules
+backend/serviceAccountKey.json
+backend/python/venv
+backend/python/__pycache__
