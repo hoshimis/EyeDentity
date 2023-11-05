@@ -1,0 +1,134 @@
+<!-- FILEPATH: /d:/Desktop/EyeDentity/frontend/index.html -->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ライブ情報</title>
+  <style>
+    /* CSS */
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .live {
+      margin-bottom: 40px;
+    }
+
+    .live__title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .live__date {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .live__description {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0069d9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>ライブ情報</h1>
+    <div class="live">
+      <h2 class="live__title">Loading...</h2>
+      <p class="live__date">Loading...</p>
+      <p class="live__description">Loading...</p>
+    </div>
+    <form>
+      <label for="name">お名前</label>
+      <input type="text" id="name" name="name" required>
+      <label for="email">メールアドレス</label>
+      <input type="email" id="email" name="email" required>
+      <button type="submit">送信</button>
+    </form>
+  </div>
+  <script>
+    // JS
+    const live = document.querySelector('.live');
+    const title = live.querySelector('.live__title');
+    const date = live.querySelector('.live__date');
+    const description = live.querySelector('.live__description');
+
+    // サーバからライブ情報を取得
+    fetch('http://127.0.0.1:3000/api/v1/liveinfo/12345')
+      .then(data => {
+        console.log(data);
+        // title.textContent = data.title;
+        // date.textContent = data.date;
+        // description.textContent = data.description;
+      })
+      .catch(error => console.error(error));
+
+    // フォームを送信
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = document.querySelector('#name').value;
+      const email = document.querySelector('#email').value;
+      const data = {
+        name: name,
+        email: email
+      };
+      fetch('/api/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+    });
+  </script>
+</body>
+
+</html>
