@@ -6,3 +6,6 @@ backend/node_modules
 backend/serviceAccountKey.json
 backend/python/venv
 backend/python/__pycache__
+backend/tmp/*
+
+# general
