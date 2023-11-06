@@ -17,7 +17,7 @@ cap.set(4,480)
 while(True):
     ret, frame = cap.read()
     # 向きの設定
-    img = cv2.flip(frame, -1)
+    img = cv2.flip(frame, 1)
     # グレースケールに変換
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
