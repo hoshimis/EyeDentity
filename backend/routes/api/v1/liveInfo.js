@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const dbOperations = require('../../../db/dbOperations')
+const dbOperations = require('./../../../firebase/db/dbOperations')
 
 /**
  ** ライブの情報をDBから取得してクライアントに返すエンドポイント

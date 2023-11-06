@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const crypto = require('crypto')
-const dbOperations = require('../../../db/dbOperations')
+const dbOperations = require('./../../../firebase/db/dbOperations')
 
 /**
  ** ライブの情報を受け取りFirestoreに返すエンドポイント
