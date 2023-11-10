@@ -6,14 +6,14 @@ const path = require('path')
 // ルートディレクトリパスの定義
 const rootDir = `${path.resolve(__dirname, './')}`
 
-// ルートディレクトリにtmpディレクトリを作成
-const tmpDir = `${rootDir}/tmp`
+// ルートディレクトリにuploadsディレクトリを作成
+const tmpDir = `${rootDir}/uploads`
 if (!fs.existsSync(tmpDir)) {
   fs.mkdirSync(tmpDir)
 }
 
 // ミドルウェアの定義
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 // 各エンドポイントの定義, ルーティング

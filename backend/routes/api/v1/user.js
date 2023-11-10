@@ -1,73 +1,59 @@
 const express = require('express')
 const router = express.Router()
 const multer = require('multer')
+const { spawn } = require('child_process')
+const uploadFile = require('../../../firebase/storage/storage')
 
-const { exec } = require('child_process')
+router.post('/', (req, res) => {
+  // 送信されてきたIDを取得
+  const id = req.body.id
 
-// Python の ファイルパスを指定
-const pythonFilePath = './python/main.py'
+  // ファイルのアップロード先のディレクトリを指定
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      // tmpディレクトリに保存
+      cb(null, 'uploads/')
+    },
+    filename: (req, file, cb) => {
+      // ファイル名をidとして保存
+      const filename = id + '.mp4'
 
-// ファイルのアップロード先のディレクトリを指定
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'tmp/') // tmpディレクトリに保存
-  },
-  filename: (req, file, cb) => {
-    const extension = path.extname(file.originalname)
-    const filename = path.basename(file.originalname, extension)
-    cb(null, `video_${filename}${extension}`)
-  },
-})
-
-// ファイルのアップロード設定
-const upload = multer({ storage: storage })
-
-// 動画を受け取って細かく分割した画像を生成する関数
-async function convertVideoToImages(videoPath) {
-  return new Promise((resolve, reject) => {
-    // Pythonスクリプトを実行
-    const pythonProcess = exec(
-      `python ${pythonFilePath} ${videoPath}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error: ${error.message}`)
-          reject(error)
-        }
-        if (stderr) {
-          console.error(`Error: ${stderr}`)
-          reject(stderr)
-        }
-        console.log(`Python Output: ${stdout}`)
-        resolve(stdout)
-      }
-    )
-
-    // 完了したときの処理
-    pythonProcess.on('exit', (code) => {
-      console.log(`Python Process exited with code ${code}`)
-    })
+      console.log('filename: ' + filename)
+      cb(null, filename)
+    },
   })
-}
 
-/**
- * クライアントから送信されたユーザ情報（動画）を受け取り、
- * それらをコマ切りにして保存するエンドポイント
- *
- * このエンドポイントは、クライアントサイドからの
- * ユーザの動画をコマ切りにしてFirestoreに保存します。
- *
- * @function
- * @name POST /api/v1/user/
- * @memberof module:routes/api/v1/user
- * @param {Object} req - Expressリクエストオブジェクト
- * @param {Object} res - Expressレスポンスオブジェクト
- * @returns {Boolean} - 登録成功時はtrue、失敗時はfalseを返す
- */
+  // ファイルのアップロード設定
+  const upload = multer({ storage: storage }).single('video')
 
-router.post('/', upload.single('video'), (req, res) => {
-  // TODO: 送信された動画を保存する処理を書く
-  // TODO: 動画をコマ切りにして保存する処理を書く
-  res.status(200).json({ success: true })
+  // ファイルのアップロードを実行
+  upload(req, res, (err) => {
+    if (err) {
+      res.status(500).json({ success: false, error: err })
+    } else {
+      res.status(200).json({ success: true, id: id })
+    }
+  })
+
+  // Python プロセスを起動して動画を細かく分割する
+  // Python プロセスを起動
+  const pythonProcess = spawn('python', [
+    './python/video_to_images.py',
+    `./uploads/${id}.mp4`, // 動画のファイル名
+    '../source_images/', // 動画の保存先
+    id, // 動画のID (ファイル名)
+  ])
+  pythonProcess.stdout.on('data', (data) => {
+    console.log(data.toString())
+  })
+  pythonProcess.stderr.on('data', (data) => {
+    console.log(data.toString())
+  })
+  pythonProcess.on('close', (code) => {
+    console.log(`child process exited with code ${code}`)
+  })
+
+  // TODO: 分割した画像をCloudStorageにアップロードする
 })
 
 module.exports = router

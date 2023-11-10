@@ -1,7 +1,18 @@
-const admin = require('./../index')
-const storage = admin.storage()
-const bucket = storage.bucket()
+const { getDownloadURL, getStorage } = require('firebase-admin/storage')
 
-module.exports = {
-  bucket,
+const bucket = getStorage().bucket()
+
+// 画像を受け取ってアップロードする関数
+// ファイルをアップロードする関数
+async function uploadFile(filePath, destination) {
+  try {
+    await bucket.upload(filePath, {
+      destination: destination,
+    })
+    console.log(`${filePath} uploaded to ${destination}.`)
+  } catch (error) {
+    console.error('Error uploading file:', error)
+  }
 }
+
+module.exports = uploadFile
