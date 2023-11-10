@@ -9,3 +9,5 @@ backend/python/__pycache__
 backend/tmp/*
 
 # general
+source_images/*
+uploads/*
