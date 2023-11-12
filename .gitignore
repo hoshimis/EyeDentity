@@ -7,7 +7,8 @@ backend/serviceAccountKey.json
 backend/python/venv
 backend/python/__pycache__
 backend/tmp/*
+backend/uploads/*
+backend/images
+backend/source_images/*
 
 # general
-source_images/*
-uploads/*
