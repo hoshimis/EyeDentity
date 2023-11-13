@@ -3,6 +3,10 @@ const app = express()
 const fs = require('fs')
 const path = require('path')
 
+// ミドルウェアの定義
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 // ルートディレクトリパスの定義
 const rootDir = `${path.resolve(__dirname, './')}`
 
@@ -12,14 +16,11 @@ if (!fs.existsSync(tmpDir)) {
   fs.mkdirSync(tmpDir)
 }
 
-// ミドルウェアの定義
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-
 // 各エンドポイントの定義, ルーティング
 app.use('/api/v1/register', require('./routes/api/v1/register'))
 app.use('/api/v1/liveinfo', require('./routes/api/v1/liveInfo'))
 app.use('/api/v1/user', require('./routes/api/v1/user'))
+app.use('/api/v1/images', require('./routes/api/v1/images'))
 
 // ルートの定義
 app.get('/', (req, res) => {
