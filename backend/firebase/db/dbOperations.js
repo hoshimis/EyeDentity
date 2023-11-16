@@ -97,7 +97,8 @@ async function addToDocument(collectionName, documentName, data) {
       .collection(`${collectionName}`)
       .doc(`${documentName}`)
       .set(data)
-    console.log('Document written with ID:', docRef.id)
+
+    console.log('Document written with ID:', docRef)
     return docRef
   } catch (error) {
     console.error('Error adding document:', error)
