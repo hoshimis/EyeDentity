@@ -27,6 +27,7 @@ def detect_faces(video_path, save_image_path, face_id):
     # 保存先のディレクトリが存在しない場合は作成する
     if not os.path.exists(f'{save_image_path}/{face_id}'):
         os.makedirs(f'{save_image_path}/{face_id}')
+        print(f'Created {save_image_path}/{face_id}')
 
     for i in range(30):
         ret, frame = cap.read()
@@ -51,6 +52,7 @@ def detect_faces(video_path, save_image_path, face_id):
 
             # 写真の保存場所
             cv2.imwrite(f"{save_image_path}/{face_id}/{face_id}.{i}.jpg", gray[y:y+h, x:x+w])
+            print(f"Saved {save_image_path}/{face_id}/{face_id}.{i}.jpg")
 
         k = cv2.waitKey(30) & 0xff
         # ESC キーで終了
@@ -65,14 +67,14 @@ def detect_faces(video_path, save_image_path, face_id):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='呼び出し元のNodeから引数を受け取る')
     parser.add_argument('video_path', type=str, help='動画のパス')
-    parser.add_argument('sage_image_path', type=str, help='画像の保存先')
+    parser.add_argument('save_image_path', type=str, help='画像の保存先')
     parser.add_argument('face_id', type=str, help='顔を検出する対象者のID')
 
     # 引数の解析
     args = parser.parse_args()
 
     video_path = args.video_path
-    save_image_path = args.sage_image_path
+    save_image_path = args.save_image_path
     face_id = args.face_id
 
 

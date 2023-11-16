@@ -43,8 +43,6 @@ router.post('/', async (req, res) => {
     deadline: deadline,
   }
 
-  console.log(data)
-
   // liveIdの生成
   const inputString = liveName + date + time + place + description + deadline
   const hash = crypto.createHash('sha256').update(inputString).digest('hex')
@@ -52,7 +50,7 @@ router.post('/', async (req, res) => {
   const liveId = hash.slice(0, 10)
   try {
     await dbOperations.addToDocument('liveInfo', liveId, data)
-    res.send(liveId)
+    res.send(JSON.stringify({ liveId: liveId }))
   } catch {
     console.error('Error adding document')
     res.status(500).send('Error adding document')
