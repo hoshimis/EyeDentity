@@ -32,6 +32,7 @@ router.post('/', async (req, res) => {
   const place = req.body.place
   const description = req.body.description
   const deadline = req.body.deadline
+  const deletePassword = req.body.deletePassword
 
   // DBに登録するデータを作成
   const data = {
@@ -41,6 +42,7 @@ router.post('/', async (req, res) => {
     place: place,
     description: description,
     deadline: deadline,
+    deletePassword: deletePassword,
   }
 
   // liveIdの生成
