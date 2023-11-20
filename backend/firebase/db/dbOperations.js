@@ -106,9 +106,26 @@ async function addToDocument(collectionName, documentName, data) {
   }
 }
 
+// 指定したコレクション内のドキュメントの編集
+async function editDocument(collectionName, documentName, data) {
+  try {
+    const docRef = await db
+      .collection(`${collectionName}`)
+      .doc(`${documentName}`)
+      .update(data)
+
+    console.log('Document edited with ID:', docRef)
+    return docRef
+  } catch (error) {
+    console.error('Error editing document:', error)
+    throw error
+  }
+}
+
 module.exports = {
   getCollectionData,
   getDocumentData,
   addToCollection,
   addToDocument,
+  editDocument,
 }
