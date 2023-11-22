@@ -21,6 +21,8 @@ app.use('/api/v1/register', require('./routes/api/v1/register'))
 app.use('/api/v1/liveinfo', require('./routes/api/v1/liveInfo'))
 app.use('/api/v1/user', require('./routes/api/v1/user'))
 app.use('/api/v1/images', require('./routes/api/v1/images'))
+app.use('/api/v1/login', require('./routes/api/v1/login'))
+app.use('/api/v1/edit', require('./routes/api/v1/edit'))
 
 // ルートの定義
 app.get('/', (req, res) => {

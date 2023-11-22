@@ -8,7 +8,7 @@ router.use(cors())
 /**
  ** クライアントから指定されたIDのライブを編集するエンドポイント
  * @function
- * @name PUT /api/v1/edit/
+ * @name POST /api/v1/edit/
  * @memberof module:routers//api/v1/edit/:liveId
  * @param {Object} req - Expressリクエストオブジェクト
  * @param {Object} res - Expressレスポンスオブジェクト
@@ -16,7 +16,7 @@ router.use(cors())
  * @param {liveData} - 編集後のライブ情報
  */
 
-router.put('/:liveId', async (req, res) => {
+router.post('/:liveId', async (req, res) => {
   const liveId = req.params.liveId
   const liveData = req.body
   try {
@@ -27,3 +27,5 @@ router.put('/:liveId', async (req, res) => {
     res.status(500).send('更新が失敗しました。')
   }
 })
+
+module.exports = router
