@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ライブ情報入力</title>
+    <link rel="stylesheet" type="text/css" href="Create.css">
+    <script src="./Create.js"></script>
+    <script src="./Datepair.js"></script>
+    <script src="./jquery.datepair.js"></script>
+</head>
+</head>
+</head>
+
+<body>
+    <div class="container">
+        <form method="post" action="http://127.0.0.1:3000/api/v1/register" onsubmit="return cancelsubmit()">
+
+            <a href="javascript:history.back();" class="back-button">戻る</a>
+
+            <label for="eventLocation">ライブ名：</label>
+            <input type="text" id="liveName" name="liveName"    ><br>
+
+            <label for="datepicker">日程を選択：</label>
+            <input type="date" id="datepicker" name="date" required><br>
+
+            <label for="eventTime">開催時間：</label>
+            <input type="time" id="eventTime" name="time" class="eventTime" required><br>
+
+            <label for="eventLocation">場所：</label>
+            <input type="text" id="eventLocation" name="place" required><br>
+
+            <label for="eventDescription">説明：</label>
+            <textarea id="eventDescription" name="description" rows="4"></textarea><br>
+
+            <label for="deadline">締切日：</label>
+            <input type="date" id="deadline" name="deadline" required><br>
+
+            <label for="DeletePassword">削除パスワード設定：</label>
+            <input type="text" id="DeletePassword" name="DeletePassword" required><br>
+
+            <label for="FaceRegister">顔認証登録画面URL:</label>
+            <input type="text" id="FaceRegister" name="FaceRegister" readonly value=""><br>
+            <button type="button" id="CopyButton" onclick="CoppyButton()">コピー</button>
+
+            <input type="submit" value="作成" class="create-button">
+        </form>
+    </div>
+</body>
+
+</html>

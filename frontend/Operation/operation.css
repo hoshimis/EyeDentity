@@ -1,0 +1,50 @@
+@media screen and(max-width: 480px) {
+    img {
+    border: 0;
+    }
+    }
+@media screen and(min-width: 1280px) {
+    img {
+    border: 1px solid red;
+    }
+}
+html{
+    background-color: rgb(139, 240, 176);
+}
+.create{
+    display       : inline-block;
+    border-radius : 5%;          /* 角丸       */
+    font-size     : 20pt;        /* 文字サイズ */
+    text-align    : center;      /* 文字位置   */
+    cursor        : pointer;     /* カーソル   */
+    padding       : 12px;   /* 余白       */
+    background    : rgb(106, 198, 238);    /* 背景色     */
+    color         : #ffffff;     /* 文字色     */
+    line-height   : 1em;         /* 1行の高さ  */
+    transition    : .3s;         /* なめらか変化 */
+    margin-bottom: 40px;
+}
+.delete {
+    display       : inline-block;
+    border-radius : 5%;          /* 角丸       */
+    font-size     : 20pt;        /* 文字サイズ */
+    text-align    : center;      /* 文字位置   */
+    cursor        : pointer;     /* カーソル   */
+    padding       : 12px;   /* 余白       */
+    background    : rgb(236, 62, 9);     /* 背景色     */
+    color         : #ffffff;     /* 文字色     */
+    line-height   : 1em;         /* 1行の高さ  */
+    transition    : .3s;         /* なめらか変化 */
+}
+h1{
+    margin-left: 20%;
+}
+section{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-left: 10%;
+}
+body{
+    margin-top: 60%;
+}
