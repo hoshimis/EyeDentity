@@ -41,7 +41,6 @@ async function getCollectionData(collectionName) {
  */
 async function getDocumentData(collectionName, documentName) {
   try {
-    const getedData = []
     const snapshot = await db
       .collection(`${collectionName}`)
       .doc(`${documentName}`)
@@ -52,7 +51,8 @@ async function getDocumentData(collectionName, documentName) {
       return null
     } else {
       console.log('Document data:', snapshot.data())
-      return snapshot.data()
+      const data = snapshot.data()
+      return data
     }
   } catch (error) {
     console.error('Error getting documents', error)
@@ -97,10 +97,27 @@ async function addToDocument(collectionName, documentName, data) {
       .collection(`${collectionName}`)
       .doc(`${documentName}`)
       .set(data)
-    console.log('Document written with ID:', docRef.id)
+
+    console.log('Document written with ID:', docRef)
     return docRef
   } catch (error) {
     console.error('Error adding document:', error)
+    throw error
+  }
+}
+
+// 指定したコレクション内のドキュメントの編集
+async function editDocument(collectionName, documentName, data) {
+  try {
+    const docRef = await db
+      .collection(`${collectionName}`)
+      .doc(`${documentName}`)
+      .update(data)
+
+    console.log('Document edited with ID:', docRef)
+    return docRef
+  } catch (error) {
+    console.error('Error editing document:', error)
     throw error
   }
 }
@@ -110,4 +127,5 @@ module.exports = {
   getDocumentData,
   addToCollection,
   addToDocument,
+  editDocument,
 }

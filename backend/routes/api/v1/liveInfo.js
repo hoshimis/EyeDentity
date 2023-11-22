@@ -26,7 +26,6 @@ router.get('/:liveId', async (req, res) => {
   const liveId = req.params.liveId
   try {
     const gotData = await dbOperations.getDocumentData('liveInfo', liveId)
-    console.log(gotData)
     res.status(200).json(gotData)
   } catch {
     res.status(500).send('Error getting document')

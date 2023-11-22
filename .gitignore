@@ -8,6 +8,7 @@ backend/python/venv
 backend/python/__pycache__
 backend/tmp/*
 backend/uploads/*
+backend/downloads/*
 backend/images
 backend/source_images/*
 

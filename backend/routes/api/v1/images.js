@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const downloadFile = require('./../../../firebase/storage/storage')
+const { downloadDirectory } = require('./../../../firebase/storage/storage')
 
 // corsを許可する
 const cors = require('cors')
@@ -15,7 +15,7 @@ router.use(cors())
  *
  *
  * @function
- * @name POST /api/v1/images/
+ * @name GET /api/v1/images/
  * @memberof module:routes/api/v1/images
  * @param {Object} req - Expressリクエストオブジェクト
  * @param {Object} res - Expressレスポンスオブジェクト
@@ -28,7 +28,8 @@ router.get('/:liveId', async (req, res) => {
   const liveId = req.params.liveId
   try {
     // 画像データを取得 (Cloud Storage から)
-    const gotData = await dbOperations.getImageData(liveId)
+    console.log('liveId: ' + liveId)
+    const gotData = await downloadDirectory(liveId)
     res.status(200).json(gotData)
   } catch {
     res.status(500).send('Error getting document')

@@ -20,6 +20,7 @@ const dbOperations = require('./../../../firebase/db/dbOperations')
  * @param {string} req.body.place - 場所
  * @param {string} req.body.description - 説明
  * @param {string} req.body.deadline - 締め切り
+ * @param {string} req.body.deletePassword - 削除パスワード
  * @param {string} liveId - ライブID
  * @param {Object} data - ライブ登録情報
  * @returns {Boolean} - 登録成功時はtrue、失敗時はfalseを返す
@@ -32,6 +33,7 @@ router.post('/', async (req, res) => {
   const place = req.body.place
   const description = req.body.description
   const deadline = req.body.deadline
+  const deletePassword = req.body.deletePassword
 
   // DBに登録するデータを作成
   const data = {
@@ -41,9 +43,8 @@ router.post('/', async (req, res) => {
     place: place,
     description: description,
     deadline: deadline,
+    deletePassword: deletePassword,
   }
-
-  console.log(data)
 
   // liveIdの生成
   const inputString = liveName + date + time + place + description + deadline
@@ -52,7 +53,7 @@ router.post('/', async (req, res) => {
   const liveId = hash.slice(0, 10)
   try {
     await dbOperations.addToDocument('liveInfo', liveId, data)
-    res.send(liveId)
+    res.send(JSON.stringify({ liveId: liveId }))
   } catch {
     console.error('Error adding document')
     res.status(500).send('Error adding document')
