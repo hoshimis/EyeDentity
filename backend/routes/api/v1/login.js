@@ -21,16 +21,19 @@ router.use(cors())
  * @param {Object} res - Expressレスポンスオブジェクト
  * @param {string} req.params.liveId - ライブID
  * @param {string} req.params.pass - パスワード
- * @returns {str} - パスワードが合致したらHTMLを返す、無かったらエラーを返す
+ * @returns {str} - パスワードが合致したらHlMLを返す、無かったらエラーを返す
  */
 router.post('/', async (req, res) => {
   // liveIdを取得
   const liveId = req.body.liveId
   const pass = req.body.pass
+  console.log(liveId)
+  console.log(pass)
   try {
     // Firebase FireStore内のドキュメントにアクセス
-    const gotData = getDocumentData('liveInfo', liveId)
+    const gotData = await getDocumentData('liveInfo', liveId)
     // 取得したデータ内のパスワードを抽出
+    console.log(gotData.deletePassword)
     const gotPass = gotData.deletePassword
     if (pass == gotPass) {
       // パスワードが合致したらHTMLを返す
@@ -75,7 +78,7 @@ router.post('/', async (req, res) => {
       </head>
 
       <body>
-        <form action="http://127.0.0.1:3000/api/v1/edit" method="POST">
+        <form action="http://127.0.0.1:3000/api/v1/edit/${liveId}" method="POST">
           <label for="liveName">ライブ名称:</label>
           <input type="text" id="liveName" name="liveName"  value="${gotData.liveName}"required>
 
@@ -97,7 +100,7 @@ router.post('/', async (req, res) => {
           <label for="edit">編集用パスワード:</label>
           <input type="text" id="edit" name="edit" value="${gotData.deletePassword}" required>
 
-          <input type="submit" value="登録">
+          <input type="submit" value="編集">
         </form>
       </body>
 

@@ -20,6 +20,7 @@ const dbOperations = require('./../../../firebase/db/dbOperations')
  * @param {string} req.body.place - 場所
  * @param {string} req.body.description - 説明
  * @param {string} req.body.deadline - 締め切り
+ * @param {string} req.body.deletePassword - 削除パスワード
  * @param {string} liveId - ライブID
  * @param {Object} data - ライブ登録情報
  * @returns {Boolean} - 登録成功時はtrue、失敗時はfalseを返す

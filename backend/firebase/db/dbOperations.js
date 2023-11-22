@@ -41,7 +41,6 @@ async function getCollectionData(collectionName) {
  */
 async function getDocumentData(collectionName, documentName) {
   try {
-    const getedData = []
     const snapshot = await db
       .collection(`${collectionName}`)
       .doc(`${documentName}`)
@@ -52,7 +51,8 @@ async function getDocumentData(collectionName, documentName) {
       return null
     } else {
       console.log('Document data:', snapshot.data())
-      return snapshot.data()
+      const data = snapshot.data()
+      return data
     }
   } catch (error) {
     console.error('Error getting documents', error)
