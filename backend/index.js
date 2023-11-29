@@ -3,9 +3,19 @@ const app = express()
 const fs = require('fs')
 const path = require('path')
 
+// Template Engineの設定
+app.set('views', path.join(__dirname, 'views'))
+
+// HTMLフォルダの指定
+app.set('views', 'views')
+
+// テンプレートエンジンにEJSを指定
+app.set('view engine', 'ejs')
+
 // ミドルウェアの定義
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // ルートディレクトリパスの定義
 const rootDir = `${path.resolve(__dirname, './')}`
