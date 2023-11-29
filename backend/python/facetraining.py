@@ -1,19 +1,24 @@
 import cv2
 import numpy as np
 from PIL import Image
-import os
-from google.cloud import storage
+import io,sys, os
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer,encoding='utf-8')
 
-# Google Cloud Storageの資格情報ファイルへのパス
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./../serviceAccountKey.json"
+
 
 # 写真が保存されている場所のパス
-path = "C:\\Users\\s212098.TSITCL\\Desktop\\facefolder\\"
+path = os.path.join(str(os.path.dirname(__file__)), './../downloads/123')
 
 # 顔認識アルゴリズムを初期化
 recognizer = cv2.face.LBPHFaceRecognizer_create()
+print(str(os.path.dirname(__file__)))
+
+
 # 分類器の読み込み
-faceCascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_default.xml')
+faceCascade = cv2.CascadeClassifier(os.path.join(str(os.path.dirname(__file__)), 'Cascades/haarcascade_frontalface_default.xml'))
+
+
 
 # 画像とラベルデータを取得する関数
 def getImagesAndLabels(path):
@@ -35,14 +40,9 @@ faces, ids = getImagesAndLabels(path)
 recognizer.train(faces, np.array(ids))
 
 # トレーニングされたモデルをymlファイルに保存
-recognizer.save("trainer.yml")
+recognizer.save(os.path.join(str(os.path.dirname(__file__)),"./../training/trainer.yml"))
 
-# YAMLファイルをGoogle Cloud Storageにアップロード
-bucket_name = "eyedentity-af8b1.appspot.com/"
-storage_client = storage.Client()
-bucket = storage_client.bucket(bucket_name)
-blob = bucket.blob("liveid/trainer.yml")
-blob.upload_from_filename("trainer.yml")
 
 # 成功メッセージを表示
-print("モデルの保存とアップロードが完了しました。")
+print("アップロードが完了しました。")
+
