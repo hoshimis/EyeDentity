@@ -44,36 +44,91 @@ router.post('/', async (req, res) => {
       <head>
         <title>ライブ情報の登録</title>
         <style>
-          form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 50px;
+        @media screen and(max-width: 480px) {
+          img {
+          border: 0;
           }
+          }
+      @media screen and(min-width: 1280px) {
+          img {
+          border: 1px solid red;
+          }
+      }
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0;
+          margin: 0;
+          padding: 0;
+      }
+      .html {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: rgb(139, 240, 176);
+      }
+      form {
+          text-align: center;
+      }
+      input[type="date"] {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          width: 100%;
+          margin: 10px 0;
+      }
+      input[type="text"] {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          width: 100%;
+          margin: 10px 0;
+      }
 
-          input[type="text"],
-          input[type="date"],
-          input[type="time"],
-          input[type="submit"] {
-            margin: 10px;
-            padding: 5px;
-            border-radius: 5px;
-            border: none;
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-            font-size: 16px;
-            width: 300px;
-          }
+      label[for="eventLocation"],input[type="text#eventLocation"] {
+          display: block;
+          margin-top: 10px;
+      }
 
-          input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-          }
+      label[for="eventDescription"], textarea#eventDescription {
+          display: block;
+          margin-top: 10px;
+          width: 100%;
+      }
 
-          input[type="submit"]:hover {
-            background-color: #3e8e41;
-          }
+      label[for="deadline"], input[type="date#deadline"] {
+          display: block;
+          margin-top: 10px;
+      }
+      label[for="DeletePassword"],input[type="text#eventLocation"] {
+          display: block;
+          margin-top: 10px;
+      }
+      #CoppyButton{
+          margin-right: 300px;
+      }
+
+      .create-button {
+          background-color: #00c6ff;
+          color: #fff;
+          padding: 15px 30px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-top: 30px;
+      }
+      .back-button {
+          text-decoration: none;
+          color: #00c6ff; /* 青いテキスト */
+          background: transparent; /* 背景を透明にする */
+          padding: 5px 10px;
+          border: 1px solid #00c6ff; /* ボーダーを追加 */
+          border-radius: 5px;
+          margin-top: 20px;
+          margin-right: 300px;
+          display: inline-block;
+          transition: background 0.3s, color 0.3s;
+      }
+
         </style>
       </head>
 
@@ -83,13 +138,13 @@ router.post('/', async (req, res) => {
           <input type="text" id="liveName" name="liveName"  value="${gotData.liveName}"required>
 
           <label for="date">日付:</label>
-          <input type="date" id="date" name="date" value="${gotData.date}" required>
+          <input type="date" id="datepicker" name="date" value="${gotData.date}" required>
 
           <label for="time">時間:</label>
-          <input type="time" id="time" name="time" value="${gotData.time}" required>
+          <input type="time" id="eventTime"class="eventTime" name="time" value="${gotData.time}" required>
 
           <label for="venue">会場:</label>
-          <input type="text" id="place" name="place" value="${gotData.place}"  required>
+          <input type="text" id="place" id="eventLocation"  name="place" value="${gotData.place}"  required>
 
           <label for="description">説明:</label>
           <input type="text" id="description" name="description" value="${gotData.description}" required>
@@ -98,7 +153,7 @@ router.post('/', async (req, res) => {
           <input type="text" id="deadline" name="deadline" value="${gotData.deadline}" required>
 
           <label for="edit">編集用パスワード:</label>
-          <input type="text" id="edit" name="edit" value="${gotData.deletePassword}" required>
+          <input type="text" id="deletePassword" name="deletePassword" value="${gotData.deletePassword}" required>
 
           <input type="submit" value="編集">
         </form>
