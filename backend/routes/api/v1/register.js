@@ -3,6 +3,10 @@ const router = express.Router()
 const crypto = require('crypto')
 const dbOperations = require('./../../../firebase/db/dbOperations')
 
+
+const cors = require('cors')
+router.use(cors())
+
 /**
  ** ライブの情報を受け取りFirestoreに返すエンドポイント
  *

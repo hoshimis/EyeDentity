@@ -9,7 +9,7 @@
     }
 }
 html{
-    background-color: rgb(139, 240, 176);
+    background-color: rgb(154, 242, 187);
 }
 .create{
     display       : inline-block;
@@ -18,7 +18,7 @@ html{
     text-align    : center;      /* 文字位置   */
     cursor        : pointer;     /* カーソル   */
     padding       : 12px;   /* 余白       */
-    background    : rgb(106, 198, 238);    /* 背景色     */
+    background    : rgb(130, 215, 252);    /* 背景色     */
     color         : #ffffff;     /* 文字色     */
     line-height   : 1em;         /* 1行の高さ  */
     transition    : .3s;         /* なめらか変化 */
@@ -31,7 +31,7 @@ html{
     text-align    : center;      /* 文字位置   */
     cursor        : pointer;     /* カーソル   */
     padding       : 12px;   /* 余白       */
-    background    : rgb(236, 62, 9);     /* 背景色     */
+    background    : rgb(245, 154, 127);     /* 背景色     */
     color         : #ffffff;     /* 文字色     */
     line-height   : 1em;         /* 1行の高さ  */
     transition    : .3s;         /* なめらか変化 */
