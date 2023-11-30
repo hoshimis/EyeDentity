@@ -1,11 +1,11 @@
 const live = document.querySelector('.live');
 const title = live.querySelector('.live__title');
 const date = live.querySelector('.live__date');
+const place = live.querySelector('.live__place')
 const description = live.querySelector('.live__description');
 
 
-// サーバからライブ情報を取得
-fetch('http://127.0.0.1:3000/api/v1/liveinfo/462610c78d')
+fetch('http://127.0.0.1:3000/api/v1/liveinfo/1f6351d8b7')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -15,8 +15,9 @@ fetch('http://127.0.0.1:3000/api/v1/liveinfo/462610c78d')
     .then(data => {
         liveInfo = data;
         // HTML に 得た情報を反映
-        title.textContent = liveInfo.title;
+        title.textContent = liveInfo.liveName;
         date.textContent = liveInfo.date;
+        place.textContent = liveInfo.place;
         description.textContent = liveInfo.description;
     })
     .catch(error => console.error(error));

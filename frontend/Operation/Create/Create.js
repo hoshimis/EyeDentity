@@ -14,7 +14,7 @@ function cancelsubmit() {
     const eventLocation = document.querySelector('#eventLocation');
     const eventDescription = document.querySelector('#eventDescription');
     const deadline = document.querySelector('#deadline');
-    const DeletePassword = document.querySelector('#DeletePassword');
+    const deletePassword = document.querySelector('#deletePassword');
     form.addEventListener('submit', (event) => {
         event.preventDefault();
         const requestBody = {
@@ -24,7 +24,7 @@ function cancelsubmit() {
             place : eventLocation.value,
             description : eventDescription.value,
             deadline : deadline.value,
-            DeletePassword : DeletePassword.value
+            deletePassword : deletePassword.value
         }
         fetch('http://127.0.0.1:3000/api/v1/register', {
             method: 'POST',
@@ -34,11 +34,13 @@ function cancelsubmit() {
             body: JSON.stringify(requestBody)
         })
             .then(response => response.json())
-            .then(data => {console.log(data)
+            .then(data => {
+            console.log(data)
             const id = data.liveId;
             const newURL = `http://127.0.0.1:3000/api/v1/liveinfo/${id}`;
             const textField = document.getElementById('FaceRegister');
-            textField.value = newURL})
+            textField.value = newURL
+        })
             .catch(error => console.log(error));
     });
     return false;
