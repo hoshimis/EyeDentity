@@ -1,13 +1,14 @@
 @media screen and(max-width: 480px) {
-    img {
+  img {
     border: 0;
-    }
-    }
+  }
+}
 @media screen and(min-width: 1280px) {
-    img {
+  img {
     border: 1px solid red;
-    }
-} 
-.camera{
-    
+  }
+}
+
+.camera {
+  width: 100%;
 }

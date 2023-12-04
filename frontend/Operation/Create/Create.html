@@ -15,12 +15,11 @@
 
 <body>
     <div class="container">
+        <a href="javascript:history.back();" class="back-button">戻る</a>
+
         <form method="post" action="http://127.0.0.1:3000/api/v1/register" onsubmit="return cancelsubmit()">
-
-            <a href="javascript:history.back();" class="back-button">戻る</a>
-
             <label for="eventLocation">ライブ名：</label>
-            <input type="text" id="liveName" name="liveName"    ><br>
+            <input type="text" id="liveName" name="liveName"><br>
 
             <label for="datepicker">日程を選択：</label>
             <input type="date" id="datepicker" name="date" required><br>
