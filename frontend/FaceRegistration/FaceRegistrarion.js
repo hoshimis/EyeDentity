@@ -9,7 +9,11 @@ document.querySelector('#recode-start').addEventListener('click', recodeStart);
  * ビデオのカメラ設定(デバイスのカメラ映像をビデオに描画)
  */
 function initVideoCamera() {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    navigator.mediaDevices.getUserMedia({
+        video: {
+            facingMode: "environment", aspectRatio: 3 / 4, width: { ideal: 720 }, height: { ideal: 960 }
+        }, audio: false
+    })
         .then((stream) => {
             video.srcObject = stream;
             video.play();
@@ -28,15 +32,10 @@ function initVideoCamera() {
  */
 function recodeStart() {
     mediaRecorder.start();
-
-    setTimeout(recodeStop, 5000);
-}
-
-/**
- * 動画撮影の停止
- */
-function recodeStop() {
-    mediaRecorder.stop();
+    setTimeout(() => {
+        mediaRecorder.stop();
+        console.log("end")
+    }, 6000);
 }
 
 document.querySelector('#recode-stop').addEventListener('click', recodeStop);
