@@ -6,8 +6,6 @@ const fs = require('fs')
 const { spawn } = require('child_process')
 const { uploadDirectory } = require('../../../firebase/storage/storage')
 
-let id = ''
-
 router.post('/', (req, res) => {
   // ファイルのアップロード先のディレクトリを指定
   const storage = multer.diskStorage({
@@ -17,7 +15,7 @@ router.post('/', (req, res) => {
     },
     filename: (req, file, cb) => {
       cb(null, file.originalname)
-    },
+    }
   })
 
   // ファイルのアップロード設定
@@ -29,7 +27,7 @@ router.post('/', (req, res) => {
       res.status(500).json({ success: false, error: err })
     } else {
       // req.body.id を取得
-      id = req.body.id || 'test'
+      const id = req.body.id || 'test'
       // ファイル名を変更
       const oldPath = path.join('uploads/', req.file.filename)
       const newPath = path.join('uploads/', id + '.mp4')
@@ -46,7 +44,8 @@ router.post('/', (req, res) => {
             './python/video_to_images.py', // Pythonファイルのパス
             `./uploads/${id}.mp4`, // 動画のパス
             './source_images/', // 画像の保存先
-            id, // 動画のID (ファイル名)
+            'name',
+            id // 動画のID (ファイル名)
           ])
           pythonProcess.stdout.on('data', (data) => {
             console.log(data.toString())
