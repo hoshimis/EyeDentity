@@ -6,46 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ライブ情報入力</title>
     <link rel="stylesheet" type="text/css" href="Create.css">
-    <script src="./Create.js"></script>
-    <script src="./Datepair.js"></script>
-    <script src="./jquery.datepair.js"></script>
-</head>
-</head>
 </head>
 
 <body>
-    <div class="container">
-        <a href="javascript:history.back();" class="back-button">戻る</a>
+    <section class="main_content">
 
-        <form method="post" action="http://127.0.0.1:3000/api/v1/register" onsubmit="return cancelsubmit()">
-            <label for="eventLocation">ライブ名：</label>
-            <input type="text" id="liveName" name="liveName"><br>
+        <!-- ローディングアニメーションのためのタグ -->
+        <div id="loading">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
 
-            <label for="datepicker">日程を選択：</label>
-            <input type="date" id="datepicker" name="date" required><br>
 
-            <label for="eventTime">開催時間：</label>
-            <input type="time" id="eventTime" name="time" class="eventTime" required><br>
+        <div class="container">
+            <a href="javascript:history.back();" class="back-button">戻る</a>
 
-            <label for="eventLocation">場所：</label>
-            <input type="text" id="eventLocation" name="place" required><br>
+            <form method="post" action="http://127.0.0.1:3000/api/v1/register" onsubmit="event.preventDefault()">
+                <label for="eventLocation">ライブ名：</label>
+                <input type="text" id="liveName" name="liveName" placeholder="ライブの名称を記入してください"><br>
 
-            <label for="eventDescription">説明：</label>
-            <textarea id="eventDescription" name="description" rows="4"></textarea><br>
+                <label for="datepicker">日程を選択：</label>
+                <input type="date" id="datepicker" name="date" placeholder="開催される日程を選択してください"><br>
 
-            <label for="deadline">締切日：</label>
-            <input type="date" id="deadline" name="deadline" required><br>
+                <label for="eventTime">開催時間：</label>
+                <input type="time" id="eventTime" name="time" class="eventTime" placeholder="開始時間を選択してください"
+                    required><br>
 
-            <label for="DeletePassword">削除パスワード設定：</label>
-            <input type="text" id="deletePassword" name="deletePassword" required><br>
+                <label for="eventLocation">場所：</label>
+                <input type="text" id="eventLocation" name="place" placeholder="開催場所を記入してください" required><br>
 
-            <label for="FaceRegister">顔認証登録画面URL:</label>
-            <input type="text" id="FaceRegister" name="FaceRegister" readonly value=""><br>
-            <button type="button" id="CopyButton" onclick="CoppyButton()">コピー</button>
+                <label for="eventDescription">説明：</label>
+                <textarea id="eventDescription" name="description" placeholder="開催されるライブについての説明を記入してください"
+                    rows="4"></textarea><br>
 
-            <input type="submit" value="作成" class="create-button">
-        </form>
-    </div>
+                <label for="deadline">申し込み締め切り:</label>
+                <input type="date" id="deadline" name="deadline" placeholder="申し込み〆切日を選択してください" required><br>
+
+                <label for="DeletePassword">編集パスワード設定：</label>
+                <input type="text" id="deletePassword" name="deletePassword" placeholder="編集用のパスワードを記入してください"
+                    required><br>
+
+                <label for="FaceRegister">顔認証登録画面URL:</label>
+                <input type="text" id="FaceRegister" name="FaceRegister" placeholder="作成を押したら生成されます" readonly
+                    value=""><br>
+
+                <button type="submit" value="作成" class="create-button">作成</button>
+            </form>
+        </div>
+    </section>
+    <script src="./Create.js"></script>
 </body>
 
 </html>
