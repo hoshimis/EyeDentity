@@ -98,7 +98,8 @@ const fetchCreateAPI = () => {
     .then((data) => {
       console.log(data)
       const id = data.liveId
-      const newURL = `http://127.0.0.1:3000/api/v1/liveinfo/${id}`
+      // TODO: ここでURLを本番用に変更する
+      const newURL = `http://127.0.0.1:5500/frontend/UserRegistration/UserRegistration.html?liveId=${id}`
       const textField = document.getElementById('FaceRegister')
       textField.value = newURL
 

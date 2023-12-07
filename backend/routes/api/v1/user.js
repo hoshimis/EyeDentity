@@ -26,7 +26,6 @@ router.post('/', (req, res) => {
     if (err) {
       res.status(500).json({ success: false, error: err })
     } else {
-      // req.body.id を取得
       const id = req.body.id || 'test'
       // ファイル名を変更
       const oldPath = path.join('uploads/', req.file.filename)
@@ -37,9 +36,11 @@ router.post('/', (req, res) => {
         } else {
           res.status(200).json({ success: true, id: id })
 
-          // Python プロセスを起動して動画を細かく分割する
-          // Python プロセスを起動
-          // 引数で渡すパスはPythonから見た相対パス
+          /**
+           * Python プロセスを起動して動画を細かく分割する
+           *
+           * @type {ChildProcess}
+           */
           const pythonProcess = spawn('python', [
             './python/video_to_images.py', // Pythonファイルのパス
             `./uploads/${id}.mp4`, // 動画のパス
