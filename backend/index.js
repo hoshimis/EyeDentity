@@ -15,7 +15,6 @@ app.set('view engine', 'ejs')
 // ミドルウェアの定義
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(path.join(__dirname, 'public')))
 
 // ルートディレクトリパスの定義
 const rootDir = `${path.resolve(__dirname, './')}`
