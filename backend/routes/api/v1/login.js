@@ -28,9 +28,6 @@ router.post('/', async (req, res) => {
   const liveId = req.body.liveId
   const pass = req.body.pass
 
-  console.log(liveId)
-  console.log(pass)
-
   try {
     // Firebase FireStore内のドキュメントにアクセス
     const gotData = await getDocumentData('liveInfo', liveId)

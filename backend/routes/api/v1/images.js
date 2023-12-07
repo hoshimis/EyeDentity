@@ -28,7 +28,6 @@ router.get('/:liveId', async (req, res) => {
   const liveId = req.params.liveId
   try {
     // 画像データを取得 (Cloud Storage から)
-    console.log('liveId: ' + liveId)
     const gotData = await downloadDirectory(liveId)
     res.status(200).json(gotData)
   } catch {
