@@ -50,7 +50,6 @@ async function getDocumentData(collectionName, documentName) {
       console.log('No such document!')
       return null
     } else {
-      console.log('Document data:', snapshot.data())
       const data = snapshot.data()
       return data
     }
@@ -98,7 +97,6 @@ async function addToDocument(collectionName, documentName, data) {
       .doc(`${documentName}`)
       .set(data)
 
-    console.log('Document written with ID:', docRef)
     return docRef
   } catch (error) {
     console.error('Error adding document:', error)
@@ -114,7 +112,6 @@ async function editDocument(collectionName, documentName, data) {
       .doc(`${documentName}`)
       .update(data)
 
-    console.log('Document edited with ID:', docRef)
     return docRef
   } catch (error) {
     console.error('Error editing document:', error)
@@ -127,5 +124,5 @@ module.exports = {
   getDocumentData,
   addToCollection,
   addToDocument,
-  editDocument,
+  editDocument
 }

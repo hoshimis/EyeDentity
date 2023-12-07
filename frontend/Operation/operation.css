@@ -1,50 +1,106 @@
-@media screen and(max-width: 480px) {
-    img {
-    border: 0;
-    }
-    }
-@media screen and(min-width: 1280px) {
-    img {
-    border: 1px solid red;
-    }
+html {
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
 }
-html{
-    background-color: rgb(154, 242, 187);
+
+body {
+  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.create{
-    display       : inline-block;
-    border-radius : 5%;          /* 角丸       */
-    font-size     : 20pt;        /* 文字サイズ */
-    text-align    : center;      /* 文字位置   */
-    cursor        : pointer;     /* カーソル   */
-    padding       : 12px;   /* 余白       */
-    background    : rgb(130, 215, 252);    /* 背景色     */
-    color         : #ffffff;     /* 文字色     */
-    line-height   : 1em;         /* 1行の高さ  */
-    transition    : .3s;         /* なめらか変化 */
-    margin-bottom: 40px;
+
+a {
+  text-decoration: none;
+  color: gainsboro;
+}
+
+.main_content {
+  width: 100%;
+  text-align: center;
+}
+
+.container {
+  width: 80%;
+  background: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: solid 3px gainsboro;
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(41, 38, 38, 0.4);
+}
+
+.title {
+  text-align: center;
+}
+
+.button_group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.create {
+  display: block;
+  border-radius: 5px;
+  font-size: 20pt;
+  text-align: center;
+  cursor: pointer;
+  padding: 12px;
+  background: rgb(130, 215, 252);
+  color: #ffffff;
+  line-height: 1em;
+  transition: 0.3s;
+  margin-bottom: 50px;
 }
 .delete {
-    display       : inline-block;
-    border-radius : 5%;          /* 角丸       */
-    font-size     : 20pt;        /* 文字サイズ */
-    text-align    : center;      /* 文字位置   */
-    cursor        : pointer;     /* カーソル   */
-    padding       : 12px;   /* 余白       */
-    background    : rgb(245, 154, 127);     /* 背景色     */
-    color         : #ffffff;     /* 文字色     */
-    line-height   : 1em;         /* 1行の高さ  */
-    transition    : .3s;         /* なめらか変化 */
+  display: block;
+  border-radius: 5px; /* 角丸       */
+  font-size: 20pt; /* 文字サイズ */
+  text-align: center; /* 文字位置   */
+  cursor: pointer; /* カーソル   */
+  padding: 12px; /* 余白       */
+  background: rgb(245, 154, 127); /* 背景色     */
+  color: #ffffff; /* 文字色     */
+  line-height: 1em; /* 1行の高さ  */
+  transition: 0.3s; /* なめらか変化 */
 }
-h1{
-    margin-left: 20%;
+
+.create:hover {
+  background: rgb(101, 176, 209);
+  color: #ffffff;
+  transform: translateY(-4px);
 }
-section{
-    display: flex;
-    flex-direction: column;
+.delete:hover {
+  background: rgb(225, 137, 110);
+  color: #ffffff;
+  transform: translateY(-4px);
+}
+
+.create:active {
+  background: rgb(101, 176, 209);
+  color: #ffffff;
+  transform: translateY(4px);
+}
+
+.delete:active {
+  background: rgb(225, 137, 110);
+  color: #ffffff;
+  transform: translateY(4px);
+}
+
+@media screen and(max-width: 480px) {
+  .container {
+    width: 100%;
+  }
+}
+@media screen and(min-width: 1280px) {
+  .container {
     width: 80%;
-    margin-left: 10%;
-}
-body{
-    margin-top: 60%;
+  }
 }

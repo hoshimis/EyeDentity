@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -9,20 +9,43 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>ライブ情報</h1>
-        <div class="live">
-            <h2 class="live__title">Loading...</h2>
-            <p class="live__date">Loading...</p>
-            <p class="live__place">Loading...</p>
-            <p class="live__description">Loading...</p>
+    <section class="maint_content">
+        <div class="container">
+            <h1>ライブ情報</h1>
+            <div class="live">
+                <div class="title_conent">
+                    <h2 class="live__title" name="title">Loading...</h2>
+                </div>
+                <div class="date_content">
+                    <div class="date_title">開催日:</div>
+                    <p class="live__date">Loading...</p>
+                </div>
+                <div class="time_content">
+                    <div class="time_title">開催時間:</div>
+                    <p class="live__time">Loading...</p>
+                </div>
+                <div class="place_content">
+                    <div class="place_title">開催地:</div>
+                    <p class="live__place">Loading...</p>
+                </div>
+                <div class="description_content">
+                    <div class="desc_title">説明・備考:</div>
+                    <p class="live__description">Loading...</p>
+                </div>
+                <div class="deadline_content">
+                    <div class="deadline_title">申し込み締め切り日:</div>
+                    <p class="live__deadline">Loading...</p>
+                </div>
+            </div>
+            <form>
+                <label for="name">参加者氏名:</label>
+                <input type="text" id="name-kanji" name="name-kanji" placeholder="例）山田 太郎" required>
+                <label for="name">参加者氏名(フリガナ):</label>
+                <input type="text" id="name-hurigana" name="name-hurigana" placeholder="例）ヤマダ タロウ" required>
+                <button type="submit" id="face">認証用顔登録</button>
+            </form>
         </div>
-        <form>
-            <label for="name">名前</label>
-            <input type="text" id="name" name="name" placeholder="例）山田 太郎" required>
-            <button type="submit" id="face" >認証用顔登録</button>
-        </form>
-    </div>
+    </section>
     <script src="./UserRegistration.js"></script>
 </body>
 

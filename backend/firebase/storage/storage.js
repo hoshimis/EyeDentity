@@ -14,9 +14,8 @@ const bucket = getStorage().bucket()
 async function uploadFile(filePath, destination) {
   try {
     await bucket.upload(filePath, {
-      destination: destination,
+      destination: destination
     })
-    console.log(`${filePath} uploaded to ${destination}.`)
   } catch (error) {
     console.error('Error uploading file:', error)
   }
@@ -40,7 +39,7 @@ async function uploadDirectory(directoryPath, destination) {
 
       const fileDestination = `${destination}/${file}`
       await bucket.upload(filePath, {
-        destination: fileDestination,
+        destination: fileDestination
       })
     }
   } catch (error) {
@@ -56,11 +55,10 @@ async function uploadDirectory(directoryPath, destination) {
  * @returns {Promise<void>} - ダウンロードが成功したら、Promiseがresolveされます。
  */
 async function downloadDirectory(directoryPath) {
-  console.log('Downloading files from Firebase Storage...')
   try {
     // ディレクトリ内のオブジェクト一覧を取得
     const [files] = await bucket.getFiles({
-      prefix: directoryPath,
+      prefix: directoryPath
     })
 
     // ディレクトリが存在しない場合は終了
@@ -83,10 +81,7 @@ async function downloadDirectory(directoryPath) {
     for (const file of files) {
       const destination = path.join(downloadDirectory, path.basename(file.name))
       await file.download({ destination })
-      console.log(`Downloaded: ${file.name}`)
     }
-
-    console.log('Download completed.')
   } catch (error) {
     console.error('Error downloading objects:', error)
   }
@@ -95,5 +90,5 @@ async function downloadDirectory(directoryPath) {
 module.exports = {
   uploadFile,
   uploadDirectory,
-  downloadDirectory,
+  downloadDirectory
 }

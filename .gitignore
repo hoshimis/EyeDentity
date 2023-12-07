@@ -11,5 +11,6 @@ backend/uploads/*
 backend/downloads/*
 backend/images
 backend/source_images/*
+backend/training/*
 
 # general

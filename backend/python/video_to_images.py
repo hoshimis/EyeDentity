@@ -2,7 +2,7 @@ import cv2
 import argparse
 import os
 
-def detect_faces(video_path, save_image_path, face_id):
+def detect_faces(video_path, save_image_path, name, live_id):
     """
     ビデオ内の顔を検出し、検出された顔の画像を保存します。
 
@@ -25,9 +25,8 @@ def detect_faces(video_path, save_image_path, face_id):
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
     # 保存先のディレクトリが存在しない場合は作成する
-    if not os.path.exists(f'{save_image_path}/{face_id}'):
-        os.makedirs(f'{save_image_path}/{face_id}')
-        print(f'Created {save_image_path}/{face_id}')
+    if not os.path.exists(f'{save_image_path}/{live_id}'):
+        os.makedirs(f'{save_image_path}/{live_id}')
 
     for i in range(30):
         ret, frame = cap.read()
@@ -51,8 +50,7 @@ def detect_faces(video_path, save_image_path, face_id):
             roi_gray = gray[y:y+h, x:x+w]
 
             # 写真の保存場所
-            cv2.imwrite(f"{save_image_path}/{face_id}/{face_id}.{i}.jpg", gray[y:y+h, x:x+w])
-            print(f"Saved {save_image_path}/{face_id}/{face_id}.{i}.jpg")
+            cv2.imwrite(f"{save_image_path}/{live_id}/{name}.{i}.jpg", gray[y:y+h, x:x+w])
 
         k = cv2.waitKey(30) & 0xff
         # ESC キーで終了
@@ -62,20 +60,21 @@ def detect_faces(video_path, save_image_path, face_id):
 
     cap.release()
     cv2.destroyAllWindows()
-    print('Done')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='呼び出し元のNodeから引数を受け取る')
     parser.add_argument('video_path', type=str, help='動画のパス')
     parser.add_argument('save_image_path', type=str, help='画像の保存先')
-    parser.add_argument('face_id', type=str, help='顔を検出する対象者のID')
+    parser.add_argument('name', type=str, help='顔を検出する対象者の名前')
+    parser.add_argument('live_id', type=str, help='顔を検出する対象者が参加するライブのID')
 
     # 引数の解析
     args = parser.parse_args()
 
     video_path = args.video_path
     save_image_path = args.save_image_path
-    face_id = args.face_id
+    name = args.name
+    live_id = args.live_id
 
 
-    detect_faces(video_path, save_image_path, face_id)
+    detect_faces(video_path, save_image_path, name, live_id)
