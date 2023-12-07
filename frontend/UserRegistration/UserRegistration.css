@@ -1,81 +1,98 @@
-@media screen and(max-width: 480px) {
-    img {
-    border: 0;
-    }
-    }
-@media screen and(min-width: 1280px) {
-    img {
-    border: 1px solid red;
-    }
-}   
+html {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-p{
-    text-align: center;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 50px;
+  background: #fff;
+  border: solid 3px gainsboro;
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(41, 38, 38, 0.4);
 }
 
 .live {
-    margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 
-.live__title {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    text-align: center;
+.title_content,
+.date_content,
+.time_content,
+.place_content,
+.description_content,
+.deadline_content {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
 }
 
-.live__date {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.live__description {
-    margin-bottom: 20px;
+.live__title,
+.live__date,
+.live__time,
+.live__place,
+.live__description,
+.live__deadline {
+  margin: 0 auto;
+  margin-top: 7px;
+  margin-bottom: 3px;
+  font-weight: bold;
 }
 
 label {
-    display: block;
-    margin-bottom: 10px;
+  display: block;
+  margin-top: 5px;
 }
 
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    text-align: center;
+input[type='text'] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  border-radius: 5px;
+  margin: 5px 0;
+  box-sizing: border-box;
 }
 
 button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 button:hover {
-    background-color: #0069d9;
+  background-color: #0069d9;
+}
+
+@media screen and (max-width: 480px) {
+  input[type='text'] {
+    width: 100%;
+  }
+  button {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .container {
+    width: 30%;
+  }
 }
