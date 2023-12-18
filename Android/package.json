@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel main.js",
-    "dev": "parcel ./src/index.html"
+    "dev": "parcel ./src/index.html --host 172.24.72.58"
   },
   "author": "hoshimis",
   "license": "ISC",

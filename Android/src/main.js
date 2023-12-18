@@ -53,76 +53,66 @@ const token = new SkyWayAuthToken({
   },
 }).encode(process.env.SKYWAY_SECRET_KEY)
 ;(async () => {
-  // 1
   const localVideo = document.getElementById('local-video')
+  const buttonArea = document.getElementById('button-area')
+  const remoteMediaArea = document.getElementById('remote-media-area')
+  const roomNameInput = document.getElementById('room-name')
+
+  const myId = document.getElementById('my-id')
+  const joinButton = document.getElementById('join')
 
   const { audio, video } =
-    await SkyWayStreamFactory.createMicrophoneAudioAndCameraStream() // 2
+    await SkyWayStreamFactory.createMicrophoneAudioAndCameraStream()
+  video.attach(localVideo)
+  await localVideo.play()
 
-  video.attach(localVideo) // 3
-  await localVideo.play() // 4
-})() // 1
+  joinButton.onclick = async () => {
+    console.log('Joining room:', roomNameInput.value)
+    if (roomNameInput.value === '') return
 
-const buttonArea = document.getElementById('button-area')
-const remoteMediaArea = document.getElementById('remote-media-area')
-const roomNameInput = document.getElementById('room-name')
-const myId = document.getElementById('my-id')
-const joinButton = document.getElementById('join')
+    const context = await SkyWayContext.Create(token)
+    const room = await SkyWayRoom.FindOrCreate(context, {
+      type: 'p2p',
+      name: roomNameInput.value,
+    })
+    const me = await room.join()
 
-joinButton.onclick = async () => {
-  if (roomNameInput.value === '') return
+    myId.textContent = me.id
 
-  const context = await SkyWayContext.Create(token)
-}
+    await me.publish(audio)
+    await me.publish(video)
 
-const room = await SkyWayRoom.FindOrCreate(context, {
-  type: 'p2p',
-  name: roomNameInput.value,
-})
+    const subscribeAndAttach = (publication) => {
+      if (publication.publisher.id === me.id) return
 
-const me = await room.join()
+      const subscribeButton = document.createElement('button')
+      subscribeButton.textContent = `${publication.publisher.id}: ${publication.contentType}`
+      buttonArea.appendChild(subscribeButton)
 
-myId.textContent = me.id
+      subscribeButton.onclick = async () => {
+        const { stream } = await me.subscribe(publication.id)
 
-await me.publish(audio)
-await me.publish(video)
-
-const subscribeAndAttach = (publication) => {
-  // 3
-  if (publication.publisher.id === me.id) return
-
-  const subscribeButton = document.createElement('button') // 3-1
-  subscribeButton.textContent = `${publication.publisher.id}: ${publication.contentType}`
-
-  buttonArea.appendChild(subscribeButton)
-
-  subscribeButton.onclick = async () => {
-    // 3-2
-    const { stream } = await me.subscribe(publication.id) // 3-2-1
-
-    let newMedia // 3-2-2
-    switch (stream.track.kind) {
-      case 'video':
-        newMedia = document.createElement('video')
-        newMedia.playsInline = true
-        newMedia.autoplay = true
-        break
-      case 'audio':
-        newMedia = document.createElement('audio')
-        newMedia.controls = true
-        newMedia.autoplay = true
-        break
-      default:
-        return
+        let newMedia
+        switch (stream.track.kind) {
+          case 'video':
+            newMedia = document.createElement('video')
+            newMedia.playsInline = true
+            newMedia.autoplay = true
+            break
+          case 'audio':
+            newMedia = document.createElement('audio')
+            newMedia.controls = true
+            newMedia.autoplay = true
+            break
+          default:
+            return
+        }
+        stream.attach(newMedia)
+        remoteMediaArea.appendChild(newMedia)
+      }
     }
-    stream.attach(newMedia) // 3-2-3
-    remoteMediaArea.appendChild(newMedia)
+
+    room.publications.forEach(subscribeAndAttach)
+    room.onStreamPublished.add((e) => subscribeAndAttach(e.publication))
   }
-}
-
-room.publications.forEach(subscribeAndAttach) // 1
-
-room.onStreamPublished.add((e) => {
-  // 2
-  subscribeAndAttach(e.publication)
-})
+})()
