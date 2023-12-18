@@ -4,8 +4,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel ./src/build main.js",
-    "start": "parcel ./src/main.js",
+    "build": "parcel build ./src/index.html",
+    "start": "parcel ./src/index.html",
     "dev": "parcel ./src/index.html --host 172.24.72.58"
   },
   "author": "hoshimis",
