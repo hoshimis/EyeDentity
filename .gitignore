@@ -13,4 +13,8 @@ backend/images
 backend/source_images/*
 backend/training/*
 
-# general
+# Android
+Android/node_modules
+Android/.env
+Android/.parcel-cache
+Android/dist
