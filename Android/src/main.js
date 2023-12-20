@@ -10,6 +10,13 @@ import {
 import env from 'dotenv'
 env.config()
 
+// OpenCV.jsの読み込み
+function onOpenCvReady() {
+  cv['onRuntimeInitialized'] = () => {
+    console.log('OpenCV.js is ready')
+  }
+}
+
 const token = new SkyWayAuthToken({
   jti: uuidV4(),
   iat: nowInSec(),
@@ -52,7 +59,53 @@ const token = new SkyWayAuthToken({
     },
   },
 }).encode(process.env.SKYWAY_SECRET_KEY)
+
+// OpenCVを使用した顔認識を追加
+const detectFaces = (video, context) => {
+  const cap = new cv.VideoCapture(video)
+
+  const detectAndDraw = () => {
+    const frame = new cv.Mat()
+    cap.read(frame)
+
+    // ここで顔認識を実行
+    // 例：事前にトレーニングされたモデルを使用して顔を検出
+    const faceCascade = new cv.CascadeClassifier()
+    faceCascade.load('haarcascade_frontalface_default.xml') // haarcascade_frontalface_default.xml ファイルをダウンロードしてプロジェクトにホストする必要があります
+
+    const faces = new cv.RectVector()
+    const gray = new cv.Mat()
+    cv.cvtColor(frame, gray, cv.COLOR_RGBA2GRAY)
+    faceCascade.detectMultiScale(gray, faces, 1.1, 3, 0)
+
+    // 顔の周りに四角形を描画
+    for (let i = 0; i < faces.size(); ++i) {
+      const faceRect = faces.get(i)
+      const point1 = new cv.Point(faceRect.x, faceRect.y)
+      const point2 = new cv.Point(
+        faceRect.x + faceRect.width,
+        faceRect.y + faceRect.height
+      )
+      cv.rectangle(frame, point1, point2, [255, 0, 0, 255])
+    }
+
+    // 処理されたフレームを表示
+    cv.imshow('local-video', frame)
+
+    // リソースを解放
+    frame.delete()
+    gray.delete()
+    faces.delete()
+    requestAnimationFrame(detectAndDraw)
+  }
+
+  detectAndDraw()
+}
+
 ;(async () => {
+  cv['onRuntimeInitialized'] = () => {
+    console.log('OpenCV.js is ready')
+  }
   const localVideo = document.getElementById('local-video')
   const buttonArea = document.getElementById('button-area')
   const remoteMediaArea = document.getElementById('remote-media-area')
@@ -64,10 +117,10 @@ const token = new SkyWayAuthToken({
   const { audio, video } =
     await SkyWayStreamFactory.createMicrophoneAudioAndCameraStream()
   video.attach(localVideo)
+  detectFaces(localVideo)
   await localVideo.play()
 
   joinButton.onclick = async () => {
-    console.log('Joining room:', roomNameInput.value)
     if (roomNameInput.value === '') return
 
     const context = await SkyWayContext.Create(token)
