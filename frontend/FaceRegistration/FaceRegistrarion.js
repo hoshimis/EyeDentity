@@ -4,7 +4,8 @@ let mediaRecorder;
 
 initVideoCamera();
 document.querySelector('#recode-start').addEventListener('click', recodeStart);
-
+document.querySelector('#recode-stop').addEventListener('click', recodeStop);
+document.querySelector('#kakunin').addEventListener('click', kakunin);
 /**
  * ビデオのカメラ設定(デバイスのカメラ映像をビデオに描画)
  */
@@ -15,28 +16,28 @@ function initVideoCamera() {
             video.play();
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.addEventListener(
-                'dataavailable',
-                e => movie.src = URL.createObjectURL(e.data)
-            );
+                'dataavailable'
+                , e => movie.src = URL.createObjectURL(e.data));
         })
         .catch(e => console.log(e));
+        console.log(URL)
 }
-//eに動画urlが入ってそう
-
+function kakunin() {
+    console.log(movie.src)
+}
 /**
  * 動画撮影の開始
  */
 function recodeStart() {
     mediaRecorder.start();
-
-    setTimeout(recodeStop, 5000);
+    document.querySelector('#recode-start').classList.add('hidd');
+    document.querySelector('#recode-stop').classList.remove('hidd');
 }
-
 /**
  * 動画撮影の停止
  */
 function recodeStop() {
     mediaRecorder.stop();
+    document.querySelector('#recode-start').classList.remove('hidd');
+    document.querySelector('#recode-stop').classList.add('hidd');
 }
-
-document.querySelector('#recode-stop').addEventListener('click', recodeStop);

@@ -6,6 +6,10 @@ const fs = require('fs')
 const { spawn } = require('child_process')
 const { uploadDirectory } = require('../../../firebase/storage/storage')
 
+
+const cors = require('cors')
+router.use(cors())
+
 router.post('/', (req, res) => {
   // ファイルのアップロード先のディレクトリを指定
   const storage = multer.diskStorage({
