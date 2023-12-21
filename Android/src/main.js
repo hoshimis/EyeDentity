@@ -10,13 +10,6 @@ import {
 import env from 'dotenv'
 env.config()
 
-// OpenCV.jsの読み込み
-function onOpenCvReady() {
-  cv['onRuntimeInitialized'] = () => {
-    console.log('OpenCV.js is ready')
-  }
-}
-
 const token = new SkyWayAuthToken({
   jti: uuidV4(),
   iat: nowInSec(),
@@ -61,38 +54,39 @@ const token = new SkyWayAuthToken({
 }).encode(process.env.SKYWAY_SECRET_KEY)
 
 // OpenCVを使用した顔認識を追加
-const detectFaces = (video, context) => {
-  const cap = new cv.VideoCapture(video)
+const detectFaces = (videoElement, context) => {
+  const cap = new cv.VideoCapture(videoElement)
 
-  const detectAndDraw = () => {
+  if (!cap.isOpened) {
+    console.error('Error opening video stream or file.')
+    return
+  }
+
+  const detectAndDraw = async () => {
     const frame = new cv.Mat()
     cap.read(frame)
 
-    // ここで顔認識を実行
-    // 例：事前にトレーニングされたモデルを使用して顔を検出
+    // 顔認識
     const faceCascade = new cv.CascadeClassifier()
-    faceCascade.load('haarcascade_frontalface_default.xml') // haarcascade_frontalface_default.xml ファイルをダウンロードしてプロジェクトにホストする必要があります
+    faceCascade.load('haarcascade_frontalface_default.xml')
 
     const faces = new cv.RectVector()
     const gray = new cv.Mat()
+
     cv.cvtColor(frame, gray, cv.COLOR_RGBA2GRAY)
     faceCascade.detectMultiScale(gray, faces, 1.1, 3, 0)
 
-    // 顔の周りに四角形を描画
     for (let i = 0; i < faces.size(); ++i) {
-      const faceRect = faces.get(i)
-      const point1 = new cv.Point(faceRect.x, faceRect.y)
-      const point2 = new cv.Point(
-        faceRect.x + faceRect.width,
-        faceRect.y + faceRect.height
-      )
+      const face = faces.get(i)
+      const point1 = new cv.Point(face.x, face.y)
+      const point2 = new cv.Point(face.x + face.width, face.y + face.height)
       cv.rectangle(frame, point1, point2, [255, 0, 0, 255])
     }
 
-    // 処理されたフレームを表示
+    // 処理された画像を表示
     cv.imshow('local-video', frame)
 
-    // リソースを解放
+    // リソースの解放
     frame.delete()
     gray.delete()
     faces.delete()
@@ -102,24 +96,112 @@ const detectFaces = (video, context) => {
   detectAndDraw()
 }
 
-;(async () => {
-  cv['onRuntimeInitialized'] = () => {
-    console.log('OpenCV.js is ready')
+// OpenCV.jsの読み込み
+function onOpenCvReady() {
+  console.log('OpenCV.js is ready')
+
+  if (
+    !cv ||
+    !cv.VideoCapture ||
+    !cv.Mat ||
+    !cv.MatVector ||
+    !cv.RectVector ||
+    !cv.Point
+  ) {
+    console.error('OpenCV.js is not ready')
+    return
   }
+
+  if (cv.getBuildInformation) {
+    console.log(cv.getBuildInformation())
+    onloadCallback()
+  } else {
+    // WASMの場合はcv.onRuntimeInitializedが呼ばれたらOpenCV.jsが使用可能
+    cv['onRuntimeInitialized'] = () => {
+      console.log(cv.getBuildInformation())
+      onloadCallback()
+    }
+  }
+
+  const localVideo2 = document.getElementById('local-video2')
+
+  // detectFacesを呼び出す
+  detectFaces(localVideo2)
+}
+
+// OpenCV.jsの読み込みが完了したかどうか
+const onloadCallback = () => {
+  isCvLoaded = true
+}
+
+// 即時関数外で行わないと、onOpenCvReadyが定義されていないというエラーが出る
+cv['onRuntimeInitialized'] = () => {
+  onOpenCvReady()
+}
+
+const processVideo = () => {
+  const FPS = 30
+
+  try {
+    if (!isCvLoaded) {
+      console.log('OpenCV.js is not loaded')
+      return
+    } else if (cap == null) {
+      // OpenCV.jsの読み込みが完了している場合は、capを初期化する
+      cap = new cv.VideoCapture(localVideo2.srcObject)
+    }
+
+    let begin = Date.now()
+
+    // capからフレームを取得
+    src = new cv.Mat(localVideo2.height, localVideo2.width, cv.CV_8UC4)
+    dst = new cv.Mat()
+
+    cap.read(src)
+    cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY)
+    cv.imshow('canvasOutput', dst)
+    src.delete()
+    dst.delete()
+
+    // FPSを計算
+    let delay = 1000 / FPS - (Date.now() - begin)
+    setTimeout(processVideo, delay)
+  } catch (err) {
+    console.log(err)
+  }
+  return
+}
+
+// 即時関数 (OpenCV.jsの読み込みが完了するまで待つ)
+;(async () => {
+  // 各種DOM要素を取得
   const localVideo = document.getElementById('local-video')
   const buttonArea = document.getElementById('button-area')
   const remoteMediaArea = document.getElementById('remote-media-area')
   const roomNameInput = document.getElementById('room-name')
-
   const myId = document.getElementById('my-id')
   const joinButton = document.getElementById('join')
 
+  // TODO: カメラとマイクの取得を2つの方法で行っている
+  // TODO: 得たストリームをOpenCVで処理したいが、うまくいかない
+
+  //! マイクとカメラ映像を取得して表示する (SkyWayStreamFactoryを使用)
   const { audio, video } =
     await SkyWayStreamFactory.createMicrophoneAudioAndCameraStream()
   video.attach(localVideo)
-  detectFaces(localVideo)
   await localVideo.play()
 
+  //! マイクとカメラ映像を取得して表示する (getUserMediaを使用)
+  const stream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: true,
+  })
+
+  const localVideo2 = document.getElementById('local-video2')
+  localVideo2.srcObject = stream
+  await localVideo2.play()
+
+  // Joinボタンが押されたらルームに入る
   joinButton.onclick = async () => {
     if (roomNameInput.value === '') return
 
@@ -132,7 +214,7 @@ const detectFaces = (video, context) => {
 
     myId.textContent = me.id
 
-    await me.publish(audio)
+    // await me.publish(audio)
     await me.publish(video)
 
     const subscribeAndAttach = (publication) => {
