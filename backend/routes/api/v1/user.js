@@ -23,14 +23,17 @@ router.post('/', (req, res) => {
   })
 
   // ファイルのアップロード設定
-  const upload = multer({ storage: storage }).single('video')
+  const upload = multer({ storage: storage }).single('uploadFile')
 
   // ファイルのアップロードを実行
   upload(req, res, (err) => {
     if (err) {
       res.status(500).json({ success: false, error: err })
+      console.log(err)
     } else {
       const id = req.body.id || 'test'
+
+      console.log("liveId: " + id)
       // ファイル名を変更
       const oldPath = path.join('uploads/', req.file.filename)
       const newPath = path.join('uploads/', id + '.mp4')
@@ -38,7 +41,11 @@ router.post('/', (req, res) => {
         if (err) {
           res.status(500).json({ success: false, error: err })
         } else {
-          res.status(200).json({ success: true, id: id })
+          // TODO: redirect が うまくできない
+          // TODO: 動画を送信した後の挙動が送信した感がないのでそれらしくする
+          // TODO: 例) 送信完了画面を表示する or 送信完了のアラートを出す
+          res.status(200).redirect('/')
+          console.log('File uploaded successfully.')
 
           /**
            * Python プロセスを起動して動画を細かく分割する
@@ -49,7 +56,9 @@ router.post('/', (req, res) => {
             './python/video_to_images.py', // Pythonファイルのパス
             `./uploads/${id}.mp4`, // 動画のパス
             './source_images/', // 画像の保存先
-            'name',
+            // TODO: ここで名前を指定する
+            // TODO: 名前の値は現状はフリガナにしているがそれでも動くかどうか確認する → 太陽さんに確認
+            'name', // 対象者の名前
             id // 動画のID (ファイル名)
           ])
           pythonProcess.stdout.on('data', (data) => {
