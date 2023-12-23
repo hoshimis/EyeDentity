@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  color: #fff;
+  text-align: center;
+  height: 100vh;
+}
+
+#videoInput {
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
