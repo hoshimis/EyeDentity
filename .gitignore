@@ -13,4 +13,8 @@ backend/images
 backend/source_images/*
 backend/training/*
 
-# general
+# app
+app/node_modules
+app/.env
+app/.parcel-cache
+app/dist
