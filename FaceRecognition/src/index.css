@@ -1,14 +1,11 @@
 body {
   margin: 0;
   padding: 0;
+  background: #f4f4f4;
   font-family: sans-serif;
-  color: #fff;
-  text-align: center;
-  height: 100vh;
 }
 
 #videoInput {
-  opacity: 0;
-  width: 1px;
-  height: 1px;
+  width: 100vw;
+  height: 100vh;
 }
