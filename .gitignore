@@ -1,20 +1,20 @@
 # frontend
-frontend/node_modules
+Registration/frontend/node_modules
 
 # backend
-backend/node_modules
-backend/serviceAccountKey.json
-backend/python/venv
-backend/python/__pycache__
-backend/tmp/*
-backend/uploads/*
-backend/downloads/*
-backend/images
-backend/source_images/*
-backend/training/*
+Registration/backend/node_modules
+Registration/backend/serviceAccountKey.json
+Registration/backend/python/venv
+Registration/backend/python/__pycache__
+Registration/backend/tmp/*
+Registration/backend/uploads/*
+Registration/backend/downloads/*
+Registration/backend/images
+Registration/backend/source_images/*
+Registration/backend/training/*
 
 # app
-app/node_modules
-app/.env
-app/.parcel-cache
-app/dist
+FaceRecognition/node_modules
+FaceRecognition/.env
+FaceRecognition/.parcel-cache
+FaceRecognition/dist
