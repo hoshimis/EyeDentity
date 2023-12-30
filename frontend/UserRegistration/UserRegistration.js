@@ -7,7 +7,7 @@ const description = live.querySelector('.live__description')
 const deadline = live.querySelector('.live__deadline')
 const video = document.getElementById('video')
 
-const sizeLimit = 1024 * 1024 * 10 // 制限サイズ
+const sizeLimit = 1024 * 1024 * 13 // 制限サイズ
 
 // changeイベントで呼び出す関数
 const handleFileSelect = () => {
@@ -73,10 +73,10 @@ form.addEventListener('submit', async (event) => {
     if (!response.ok) {
       throw new Error('ネットワークの応答が正しくありませんでした')
     }
-
-    const data = await response.json()
-    console.log(data)
+    const html = await response.text() 
+    document.write(html)
   } catch (error) {
     console.error(error)
   }
 })
+
