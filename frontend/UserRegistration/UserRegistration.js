@@ -55,6 +55,7 @@ form.addEventListener('submit', async (event) => {
   const name_kanji = document.querySelector('#name-kanji').value
   const name_hurigana = document.querySelector('#name-hurigana').value
   const address = document.querySelector('#address').value
+  const seat = document.querySelector('#seat-num').value
 
   // FormDataオブジェクトを作成し、ユーザーの入力を追加
   const formData = new FormData()
@@ -62,6 +63,7 @@ form.addEventListener('submit', async (event) => {
   formData.append('hurigana', name_hurigana)
   formData.append('address', address)
   formData.append('id', liveId)
+  formData.append('seat', seat)
   formData.append('uploadFile', video.files[0])
 
   try {
