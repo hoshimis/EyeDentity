@@ -7,6 +7,7 @@ const { spawn } = require('child_process')
 const { uploadDirectory } = require('../../../firebase/storage/storage')
 
 
+
 const cors = require('cors')
 router.use(cors())
 
@@ -37,6 +38,8 @@ router.post('/', (req, res) => {
       // ファイル名を変更
       const oldPath = path.join('uploads/', req.file.filename)
       const newPath = path.join('uploads/', id + '.mp4')
+      const htmlData={
+      }
       fs.rename(oldPath, newPath, (err) => {
         if (err) {
           res.status(500).json({ success: false, error: err })
@@ -44,7 +47,7 @@ router.post('/', (req, res) => {
           // TODO: redirect が うまくできない
           // TODO: 動画を送信した後の挙動が送信した感がないのでそれらしくする
           // TODO: 例) 送信完了画面を表示する or 送信完了のアラートを出す
-          res.status(200).redirect('/')
+          res.status(200).render('end', htmlData)
           console.log('File uploaded successfully.')
 
           /**

@@ -7,7 +7,7 @@ const description = live.querySelector('.live__description')
 const deadline = live.querySelector('.live__deadline')
 const video = document.getElementById('video')
 
-const sizeLimit = 1024 * 1024 * 10 // 制限サイズ
+const sizeLimit = 1024 * 1024 * 13 // 制限サイズ
 
 // changeイベントで呼び出す関数
 const handleFileSelect = () => {
@@ -55,6 +55,7 @@ form.addEventListener('submit', async (event) => {
   const name_kanji = document.querySelector('#name-kanji').value
   const name_hurigana = document.querySelector('#name-hurigana').value
   const address = document.querySelector('#address').value
+  const seat = document.querySelector('#seat-num').value
 
   // FormDataオブジェクトを作成し、ユーザーの入力を追加
   const formData = new FormData()
@@ -62,6 +63,7 @@ form.addEventListener('submit', async (event) => {
   formData.append('hurigana', name_hurigana)
   formData.append('address', address)
   formData.append('id', liveId)
+  formData.append('seat', seat)
   formData.append('uploadFile', video.files[0])
 
   try {
@@ -73,10 +75,10 @@ form.addEventListener('submit', async (event) => {
     if (!response.ok) {
       throw new Error('ネットワークの応答が正しくありませんでした')
     }
-
-    const data = await response.json()
-    console.log(data)
+    const html = await response.text() 
+    document.write(html)
   } catch (error) {
     console.error(error)
   }
 })
+
