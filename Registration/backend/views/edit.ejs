@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ライブ情報の登録</title>
+  <meta charset="utf-8">
+  <style>
+    html {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    body {
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      margin: 0 auto;
+      border: solid 3px gainsboro;
+      border-radius: 10px;
+      box-shadow: 0 0 50px rgba(41, 38, 38, 0.4);
+      padding: 20px;
+      padding-top: 30px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=submit] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+
+    input[type=submit]:hover {
+      opacity: 0.8;
+    }
+
+    input[type=submit]:active {
+      opacity: 0.6;
+    }
+
+    @media screen and(max-width: 480px) {
+      html {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+    }
+
+    @media screen and(min-width: 1280px) {
+      html {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+    }
+
+    /* ここからローディングアニメーションのスタイル設定 */
+    #loading {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .lds-ring {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+    }
+
+    .lds-ring div {
+      box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      margin: 8px;
+      border: 8px solid #3498db;
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #3498db transparent transparent transparent;
+    }
+
+    @keyframes lds-ring {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ローディングアニメーションの設定ここまで  */
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- ローディングアニメーションのためのタグ -->
+    <div id="loading">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <form id="editForm">
+      <label for="liveName">ライブ名称:</label>
+      <input type="text" id="liveName" name="liveName" value="<%= liveName %>" required>
+
+      <label for="date">日付:</label>
+      <input type="date" id="datepicker" name="date" value="<%= date %>" required>
+
+      <label for="time">時間:</label>
+      <input type="time" id="eventTime" class="eventTime" name="time" value="<%= time %>" required>
+
+      <label for="venue">会場:</label>
+      <input type="text" id="eventLocation" name="place" value="<%= place %>" required>
+
+      <label for="description">説明:</label>
+      <input type="text" id="description" name="description" value="<%= description %>" required>
+
+      <label for="deadline">申し込み締め切り:</label>
+      <input type="date" id="deadline" name="deadline" value="<%= deadline %>" required>
+
+      <label for="edit">編集用パスワード:</label>
+      <input type="text" id="deletePassword" name="deletePassword" value="<%= deletePassword %>" required>
+
+      <input type="submit" id="submit_button" value="編集">
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('editForm');
+    const loading = document.getElementById('loading');
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const liveName = document.getElementById('liveName').value;
+      const date = document.getElementById('datepicker').value;
+      const time = document.getElementById('eventTime').value;
+      const place = document.getElementById('eventLocation').value;
+      const description = document.getElementById('description').value;
+      const deadline = document.getElementById('deadline').value;
+      const deletePassword = document.getElementById('deletePassword').value;
+
+      const requestBody = {
+        liveName: liveName,
+        date: date,
+        time: time,
+        place: place,
+        description: description,
+        deadline: deadline,
+        deletePassword: deletePassword
+      };
+
+      const url = "http://127.0.0.1:3000/api/v1/edit/<%= liveId %>";
+
+      if (!validateForm()) {
+        console.log('バリデーションNG');
+        return false;
+      }
+
+      loading.style.display = 'flex';
+      loading.classList.add('loading--active');
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        loading.classList.remove('loading--active');
+        loading.style.display = 'none';
+
+        if (response.status === 200) {
+          alert('更新が完了しました。');
+          window.location.href = 'http://localhost:5500/frontend/Operation/operation.html';
+        } else {
+          alert('更新に失敗しました。');
+        }
+      } catch (error) {
+        console.error('フォームの送信中にエラーが発生しました:', error);
+        alert('フォームの送信中にエラーが発生しました。');
+      }
+    });
+
+    function validateForm() {
+      const titleValue = document.getElementById('liveName').value;
+      const dateValue = document.getElementById('datepicker').value;
+      const eventTimeValue = document.getElementById('eventTime').value;
+      const eventLocationValue = document.getElementById('eventLocation').value;
+      const eventDescriptionValue = document.getElementById('description').value;
+      const deadlineValue = document.getElementById('deadline').value;
+      const deletePasswordValue = document.getElementById('deletePassword').value;
+
+      if (
+        titleValue === '' ||
+        dateValue === '' ||
+        eventTimeValue === '' ||
+        eventLocationValue === '' ||
+        eventDescriptionValue === '' ||
+        deadlineValue === '' ||
+        deletePasswordValue === ''
+      ) {
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</body>
+
+</html>
