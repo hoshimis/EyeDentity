@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/recognition.css') }}">
+  <title>顔認識画面＆チャット</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="camera">
+
+      <!-- Webカメラの映像取得用タグ 実際には表示しない -->
+      <video id="webcam" width="640" height="480" autoplay></video>
+      <!-- カメラ映像を画像に変換するためのタグ 実際には表示しない -->
+      <canvas id="outputCanvas" width="640" height="480"></canvas>
+
+      <!-- ここにOpencvで顔認識された画像が映される -->
+      <canvas id="responseCanvas" width="640" height="480"></canvas>
+      <!-- 認識された情報が入る ここはWebSocket通信の時に情報を取得する -->
+      <div class="name">名前：</div>
+      <div class="result">認証結果：</div>
+      <div class="seat">座席番号：</div>
+    </div>
+    <div class="chat">
+      <div class="chat__messages">
+        <div id="messages"></div>
+      </div>
+      <div id="message-container">
+        <div id="message-form">
+          <input id="chatInput" name="message" type="text" placeholder="Message" autocomplete="off" />
+          <button id="sendButton">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.3/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='javascript/recognition.js') }}"></script>
+</body>
+
+</html>
