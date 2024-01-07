@@ -14,7 +14,4 @@ Registration/backend/source_images/*
 Registration/backend/training/*
 
 # app
-FaceRecognition/node_modules
-FaceRecognition/.env
-FaceRecognition/.parcel-cache
-FaceRecognition/dist
+FaceRecognition/venv
