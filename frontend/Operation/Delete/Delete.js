@@ -25,7 +25,7 @@ const submitButton = async () => {
     if (!response.ok) {
       throw new ResonseError('Network response was not ok', response)
     } else {
-      const html = await response.text() // Get the rendered HTML from express
+      const html = await response.text()// Get the rendered HTML from express
       document.write(html)
     }
   } catch (error) {
