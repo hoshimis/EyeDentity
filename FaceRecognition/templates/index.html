@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+  <title>LiveID入力ページ</title>
+</head>
+
+<body>
+  <div class="input-container">
+    <label for="liveId">Live IDを入力してください:</label>
+    <input type="text" id="liveId" name="liveId" placeholder="Live ID...">
+    <button type="button" id="button">続行</button>
+  </div>
+  <script src="{{url_for('static', filename='javascript/index.js')}}"></script>
+</body>
+
+</html>

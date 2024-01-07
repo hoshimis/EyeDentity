@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="UserRegistration.css">
+    <title>顔面登録</title>
+</head>
+
+<body>
+    <section class="maint_content">
+        <div class="container">
+            <h1>ライブ情報</h1>
+            <div class="live">
+                <div class="title_conent">
+                    <h2 class="live__title" name="title">Loading...</h2>
+                </div>
+                <div class="date_content">
+                    <div class="date_title">開催日:</div>
+                    <p class="live__date">Loading...</p>
+                </div>
+                <div class="time_content">
+                    <div class="time_title">開催時間:</div>
+                    <p class="live__time">Loading...</p>
+                </div>
+                <div class="place_content">
+                    <div class="place_title">開催地:</div>
+                    <p class="live__place">Loading...</p>
+                </div>
+                <div class="description_content">
+                    <div class="desc_title">説明・備考:</div>
+                    <p class="live__description">Loading...</p>
+                </div>
+                <div class="deadline_content">
+                    <div class="deadline_title">申し込み締め切り日:</div>
+                    <p class="live__deadline">Loading...</p>
+                </div>
+            </div>
+            <form>
+                <label for="name">参加者住所</label>
+                <input type="text" id="address" name="address" placeholder="例）愛知県名古屋市中村区名駅3-24-15" required></label>
+                <label for="name">参加者氏名:</label>
+                <input type="text" id="name-kanji" name="name-kanji" placeholder="例）山田 太郎" required>
+                <label for="name">参加者氏名(フリガナ):</label>
+                <input type="text" id="name-hurigana" name="name-hurigana" placeholder="例）ヤマダ タロウ" required>
+                <label for="name">座席番号:</label>
+                <input type="text" id="seat-num" name="seat-num" placeholder="座席番号が無ければ無しと記入してください" required>
+                <label for="name">顔認証用の動画アップロード</label>
+                <input type="file" name="upload-file" id="video" accept="video/*" required>
+                <label><input type="checkbox" name="checkbox[]" required> 動画の長さは6秒から10秒以内ですか</label><br>
+                <label><input type="checkbox" name="checkbox[]" required> 前髪等で顔は隠れていませんか</label><br>
+                <label><input type="checkbox" name="checkbox[]" required> 背景に人の顔の写真などは写っていませんか</label><br>
+                <button type="submit" id="face">認証用顔登録</button>
+            </form>
+    </section>
+    <script src="./UserRegistration.js"></script>
+</body>
+
+</html>
